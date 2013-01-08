@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 import za.co.sindi.sql.AbstractSQLExecutor;
+import za.co.sindi.sql.CallableParameters;
 import za.co.sindi.sql.CallableStatementHandler;
 import za.co.sindi.sql.DatabaseExecutionException;
-import za.co.sindi.sql.Parameters;
 import za.co.sindi.sql.ProcedureCallSQLExecutor;
 import za.co.sindi.sql.ResultSetInfo;
 import za.co.sindi.sql.utils.SQLUtils;
@@ -31,9 +31,9 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.ProcedureCallSQLExecutor#executeCall(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.CallableStatementHandler)
+	 * @see za.co.sindi.sql.ProcedureCallSQLExecutor#executeCall(java.lang.String, za.co.sindi.sql.CallableParameters, za.co.sindi.sql.CallableStatementHandler)
 	 */
-	public <T> T executeCall(String call, Parameters parameters, CallableStatementHandler<T> handler) throws DatabaseExecutionException {
+	public <T> T executeCall(String call, CallableParameters parameters, CallableStatementHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		return executeCall(call, parameters, null, handler);
 	}
@@ -43,9 +43,9 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 	 */
 	public <T> T executeCall(String call, Object[] parameters, ResultSetInfo info, CallableStatementHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		Parameters params = null;
+		CallableParameters params = null;
 		if (parameters != null) {
-			params = new PreparedStatementParameters();
+			params = new CallableStatementParameters();
 			
 			for (int i = 0; i < parameters.length; i++) {
 				params.setObject(i + 1, parameters[i]);
@@ -56,9 +56,9 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.ProcedureCallSQLExecutor#executeCall(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.ResultSetInfo, za.co.sindi.sql.CallableStatementHandler)
+	 * @see za.co.sindi.sql.ProcedureCallSQLExecutor#executeCall(java.lang.String, za.co.sindi.sql.CallableParameters, za.co.sindi.sql.ResultSetInfo, za.co.sindi.sql.CallableStatementHandler)
 	 */
-	public <T> T executeCall(String call, Parameters parameters, ResultSetInfo info, CallableStatementHandler<T> handler) throws DatabaseExecutionException {
+	public <T> T executeCall(String call, CallableParameters parameters, ResultSetInfo info, CallableStatementHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		if (connection == null) {
 			throw new IllegalStateException("No JDBC Connection provided.");
@@ -81,9 +81,12 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 			//Prepare the statement before execution
 			prepareStatement(statement);
 			
+			//First, register out parameters.
+			parameters.visitOUTParameters(statement);
+			
 			//Populate parameters
 			if (parameters != null) {
-				parameters.visit(statement);
+				parameters.visitParameters(statement);
 			}
 			
 			//Execute statement
@@ -129,9 +132,9 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 			throw new IllegalArgumentException("Parameters are required to do CallableStatement batch insert/update.");
 		}
 		
-		Parameters[] params = new Parameters[parameters.length];
+		CallableParameters[] params = new CallableParameters[parameters.length];
 		for (int i = 0; i < parameters.length; i++) {
-			params[i] = new PreparedStatementParameters();
+			params[i] = new CallableStatementParameters();
 			
 			for (int j = 0; j < parameters[i].length; j++) {
 				params[i].setObject(j + 1, parameters[i][j]);
@@ -142,9 +145,9 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.ProcedureCallSQLExecutor#executeBatch(java.lang.String, za.co.sindi.sql.Parameters[])
+	 * @see za.co.sindi.sql.ProcedureCallSQLExecutor#executeBatch(java.lang.String, za.co.sindi.sql.CallableParameters[])
 	 */
-	public int[] executeBatch(String call, Parameters[] parametersArray) throws DatabaseExecutionException {
+	public int[] executeBatch(String call, CallableParameters[] parametersArray) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		if (parametersArray == null) {
 			throw new IllegalArgumentException("Parameters are required to do Statement batch insert/update.");
@@ -167,8 +170,8 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 			
 			//Populate parameters
 			if (parametersArray != null) {
-				for (Parameters parameter : parametersArray) {
-					parameter.visit(statement);
+				for (CallableParameters parameter : parametersArray) {
+					parameter.visitParameters(statement);
 					statement.addBatch();
 				}
 			}

@@ -22,7 +22,7 @@ import java.util.Calendar;
  * @since 27 December 2012
  *
  */
-public interface Parameters extends Clearable {
+public interface PreparedParameters extends Clearable {
 
 	public void setNull(int parameterIndex, int sqlType);
 	public void setBoolean(int parameterIndex, boolean x);
@@ -77,5 +77,5 @@ public interface Parameters extends Clearable {
 	public void setBlob(int parameterIndex, InputStream inputStream);
 	public void setNClob(int parameterIndex, Reader reader);
 	
-	public void visit(PreparedStatement ps) throws SQLException;
+	public void visitParameters(PreparedStatement ps) throws SQLException;
 }

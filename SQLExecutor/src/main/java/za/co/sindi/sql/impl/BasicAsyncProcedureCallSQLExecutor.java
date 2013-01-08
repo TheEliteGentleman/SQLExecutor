@@ -9,9 +9,9 @@ import java.util.concurrent.Future;
 
 import za.co.sindi.sql.AbstractAsyncSQLExecutor;
 import za.co.sindi.sql.AsyncProcedureCallSQLExecutor;
+import za.co.sindi.sql.CallableParameters;
 import za.co.sindi.sql.CallableStatementHandler;
 import za.co.sindi.sql.DatabaseExecutionException;
-import za.co.sindi.sql.Parameters;
 import za.co.sindi.sql.ProcedureCallSQLExecutor;
 
 /**
@@ -49,9 +49,9 @@ public class BasicAsyncProcedureCallSQLExecutor extends AbstractAsyncSQLExecutor
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.AsyncProcedureCallSQLExecutor#executeCall(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.CallableStatementHandler)
+	 * @see za.co.sindi.sql.AsyncProcedureCallSQLExecutor#executeCall(java.lang.String, za.co.sindi.sql.CallableParameters, za.co.sindi.sql.CallableStatementHandler)
 	 */
-	public <T> Future<T> executeCall(final String call, final Parameters parameters, final CallableStatementHandler<T> handler) throws DatabaseExecutionException {
+	public <T> Future<T> executeCall(final String call, final CallableParameters parameters, final CallableStatementHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		return executorService.submit(new Callable<T>() {
 
@@ -85,9 +85,9 @@ public class BasicAsyncProcedureCallSQLExecutor extends AbstractAsyncSQLExecutor
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.AsyncProcedureCallSQLExecutor#executeBatch(java.lang.String, za.co.sindi.sql.Parameters[])
+	 * @see za.co.sindi.sql.AsyncProcedureCallSQLExecutor#executeBatch(java.lang.String, za.co.sindi.sql.CallableParameters[])
 	 */
-	public Future<int[]> executeBatch(final String call, final Parameters[] parameters) throws DatabaseExecutionException {
+	public Future<int[]> executeBatch(final String call, final CallableParameters[] parameters) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		return executorService.submit(new Callable<int[]>() {
 

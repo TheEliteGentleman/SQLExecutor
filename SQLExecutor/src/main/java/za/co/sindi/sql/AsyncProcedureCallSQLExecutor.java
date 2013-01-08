@@ -13,7 +13,7 @@ import java.util.concurrent.Future;
 public interface AsyncProcedureCallSQLExecutor extends SQLExecutor {
 
 	public <T> Future<T> executeCall(final String call, final Object[] parameters, final CallableStatementHandler<T> handler) throws DatabaseExecutionException;
-	public <T> Future<T> executeCall(final String call, final Parameters parameters, final CallableStatementHandler<T> handler) throws DatabaseExecutionException;
+	public <T> Future<T> executeCall(final String call, final CallableParameters parameters, final CallableStatementHandler<T> handler) throws DatabaseExecutionException;
 	public Future<int[]> executeBatch(final String call, final Object[][] parameters) throws DatabaseExecutionException;
-	public Future<int[]> executeBatch(final String call, final Parameters[] parameters) throws DatabaseExecutionException;
+	public Future<int[]> executeBatch(final String call, final CallableParameters[] parameters) throws DatabaseExecutionException;
 }

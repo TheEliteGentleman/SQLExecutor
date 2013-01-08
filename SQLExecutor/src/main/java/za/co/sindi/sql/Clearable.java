@@ -10,5 +10,5 @@ package za.co.sindi.sql;
  */
 public interface Clearable {
 
-	public void clear();
+	public void clearAll();
 }

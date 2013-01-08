@@ -11,7 +11,7 @@ import za.co.sindi.sql.AbstractAsyncSQLExecutor;
 import za.co.sindi.sql.AsyncSQLQueryExecutor;
 import za.co.sindi.sql.DatabaseExecutionException;
 import za.co.sindi.sql.GeneratedKeysHandler;
-import za.co.sindi.sql.Parameters;
+import za.co.sindi.sql.PreparedParameters;
 import za.co.sindi.sql.ResultSetHandler;
 import za.co.sindi.sql.ResultSetInfo;
 import za.co.sindi.sql.SQLQueryExecutor;
@@ -69,9 +69,9 @@ public class BasicAsyncSQLQueryExecutor extends AbstractAsyncSQLExecutor<SQLQuer
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeQuery(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.ResultSetHandler)
+	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeQuery(java.lang.String, za.co.sindi.sql.PreparedParameters, za.co.sindi.sql.ResultSetHandler)
 	 */
-	public <T> Future<T> executeQuery(final String query, final Parameters parameters, final ResultSetHandler<T> handler) throws DatabaseExecutionException {
+	public <T> Future<T> executeQuery(final String query, final PreparedParameters parameters, final ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		return executorService.submit(new Callable<T>() {
 
@@ -123,9 +123,9 @@ public class BasicAsyncSQLQueryExecutor extends AbstractAsyncSQLExecutor<SQLQuer
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeQuery(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.ResultSetInfo, za.co.sindi.sql.ResultSetHandler)
+	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeQuery(java.lang.String, za.co.sindi.sql.PreparedParameters, za.co.sindi.sql.ResultSetInfo, za.co.sindi.sql.ResultSetHandler)
 	 */
-	public <T> Future<T> executeQuery(final String query, final Parameters parameters, final ResultSetInfo info, final ResultSetHandler<T> handler) throws DatabaseExecutionException {
+	public <T> Future<T> executeQuery(final String query, final PreparedParameters parameters, final ResultSetInfo info, final ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		return executorService.submit(new Callable<T>() {
 
@@ -177,9 +177,9 @@ public class BasicAsyncSQLQueryExecutor extends AbstractAsyncSQLExecutor<SQLQuer
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeUpdate(java.lang.String, za.co.sindi.sql.Parameters)
+	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeUpdate(java.lang.String, za.co.sindi.sql.PreparedParameters)
 	 */
-	public Future<Integer> executeUpdate(final String query, final Parameters parameters) throws DatabaseExecutionException {
+	public Future<Integer> executeUpdate(final String query, final PreparedParameters parameters) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		return executorService.submit(new Callable<Integer>() {
 
@@ -213,9 +213,9 @@ public class BasicAsyncSQLQueryExecutor extends AbstractAsyncSQLExecutor<SQLQuer
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeUpdate(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.GeneratedKeysResultSetHandler)
+	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeUpdate(java.lang.String, za.co.sindi.sql.PreparedParameters, za.co.sindi.sql.GeneratedKeysResultSetHandler)
 	 */
-	public <K> Future<K> executeUpdate(final String query, final Parameters parameters, final GeneratedKeysHandler<K> handler) throws DatabaseExecutionException {
+	public <K> Future<K> executeUpdate(final String query, final PreparedParameters parameters, final GeneratedKeysHandler<K> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		return executorService.submit(new Callable<K>() {
 
@@ -249,9 +249,9 @@ public class BasicAsyncSQLQueryExecutor extends AbstractAsyncSQLExecutor<SQLQuer
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeBatch(java.lang.String, za.co.sindi.sql.Parameters[])
+	 * @see za.co.sindi.sql.AsyncSQLQueryExecutor#executeBatch(java.lang.String, za.co.sindi.sql.PreparedParameters[])
 	 */
-	public Future<int[]> executeBatch(final String query, final Parameters[] parameters) throws DatabaseExecutionException {
+	public Future<int[]> executeBatch(final String query, final PreparedParameters[] parameters) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		return executorService.submit(new Callable<int[]>() {
 

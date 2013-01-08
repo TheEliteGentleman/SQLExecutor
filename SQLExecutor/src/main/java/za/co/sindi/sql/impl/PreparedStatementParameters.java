@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import za.co.sindi.sql.Parameters;
+import za.co.sindi.sql.PreparedParameters;
 import za.co.sindi.sql.parameter.ValueParameter;
 import za.co.sindi.sql.parameter.value.ArrayValueParameter;
 import za.co.sindi.sql.parameter.value.AsciiStreamValueParameter;
@@ -61,20 +61,20 @@ import za.co.sindi.sql.parameter.value.URLValueParameter;
  * @since 06 January 2013
  *
  */
-public class PreparedStatementParameters implements Parameters {
+public class PreparedStatementParameters implements PreparedParameters {
 
 	private Map<Integer, ValueParameter<?>> indexedValueParameters = Collections.synchronizedMap(new HashMap<Integer, ValueParameter<?>>());
 	
-	private void checkParameterIndex(int parameterIndex) {
+	protected void checkParameterIndex(int parameterIndex) {
 		if (parameterIndex < 0) {
 			throw new IllegalArgumentException("JDBC Parameter index must be greater than 0.");
 		}
 	}
 	
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.Clearable#clear()
+	 * @see za.co.sindi.sql.Clearable#clearAll()
 	 */
-	public void clear() {
+	public void clearAll() {
 		// TODO Auto-generated method stub
 		indexedValueParameters.clear();
 	}
@@ -503,9 +503,9 @@ public class PreparedStatementParameters implements Parameters {
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.Parameters#visit(java.sql.PreparedStatement)
+	 * @see za.co.sindi.sql.Parameters#visitParameters(java.sql.PreparedStatement)
 	 */
-	public void visit(PreparedStatement ps) throws SQLException {
+	public void visitParameters(PreparedStatement ps) throws SQLException {
 		// TODO Auto-generated method stub
 		if (ps != null) {
 			for (Entry<Integer, ValueParameter<?>> entry : indexedValueParameters.entrySet()) {

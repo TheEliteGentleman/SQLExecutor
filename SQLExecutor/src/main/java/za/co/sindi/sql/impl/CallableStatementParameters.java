@@ -23,8 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import za.co.sindi.sql.NamedParameters;
+import za.co.sindi.sql.CallableParameters;
+import za.co.sindi.sql.parameter.OutParameter;
 import za.co.sindi.sql.parameter.ValueParameter;
+import za.co.sindi.sql.parameter.out.DefaultOutParameter;
+import za.co.sindi.sql.parameter.out.ScaledOutParameter;
+import za.co.sindi.sql.parameter.out.TypeNamedOutParameter;
 import za.co.sindi.sql.parameter.value.AsciiStreamValueParameter;
 import za.co.sindi.sql.parameter.value.BigDecimalValueParameter;
 import za.co.sindi.sql.parameter.value.BinaryStreamValueParameter;
@@ -57,18 +61,71 @@ import za.co.sindi.sql.parameter.value.URLValueParameter;
  * @since 06 January 2013
  *
  */
-public class CallableStatementParameters extends PreparedStatementParameters implements NamedParameters {
+public class CallableStatementParameters extends PreparedStatementParameters implements CallableParameters {
 
 	private Map<String, ValueParameter<?>> namedValueParameters = Collections.synchronizedMap(new HashMap<String, ValueParameter<?>>());
+	private Map<Object, OutParameter> outValueParameters = Collections.synchronizedMap(new HashMap<Object, OutParameter>());
 	
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.impl.BasicParameters#clear()
+	 * @see za.co.sindi.sql.impl.BasicParameters#clearAll()
 	 */
 	@Override
-	public void clear() {
+	public void clearAll() {
 		// TODO Auto-generated method stub
-		super.clear();
+		super.clearAll();
+		outValueParameters.clear();
 		namedValueParameters.clear();
+	}
+
+	/* (non-Javadoc)
+	 * @see za.co.sindi.sql.CallableParameters#registerOutParameter(int, int)
+	 */
+	public void registerOutParameter(int parameterIndex, int sqlType) {
+		// TODO Auto-generated method stub
+		checkParameterIndex(parameterIndex);
+		outValueParameters.put(parameterIndex, new DefaultOutParameter(sqlType));
+	}
+
+	/* (non-Javadoc)
+	 * @see za.co.sindi.sql.CallableParameters#registerOutParameter(int, int, int)
+	 */
+	public void registerOutParameter(int parameterIndex, int sqlType, int scale) {
+		// TODO Auto-generated method stub
+		checkParameterIndex(parameterIndex);
+		outValueParameters.put(parameterIndex, new ScaledOutParameter(sqlType, scale));
+	}
+
+	/* (non-Javadoc)
+	 * @see za.co.sindi.sql.CallableParameters#registerOutParameter(int, int, java.lang.String)
+	 */
+	public void registerOutParameter(int parameterIndex, int sqlType, String typeName) {
+		// TODO Auto-generated method stub
+		checkParameterIndex(parameterIndex);
+		outValueParameters.put(parameterIndex, new TypeNamedOutParameter(sqlType, typeName));
+	}
+
+	/* (non-Javadoc)
+	 * @see za.co.sindi.sql.CallableParameters#registerOutParameter(java.lang.String, int)
+	 */
+	public void registerOutParameter(String parameterName, int sqlType) {
+		// TODO Auto-generated method stub
+		outValueParameters.put(parameterName, new DefaultOutParameter(sqlType));
+	}
+
+	/* (non-Javadoc)
+	 * @see za.co.sindi.sql.CallableParameters#registerOutParameter(java.lang.String, int, int)
+	 */
+	public void registerOutParameter(String parameterName, int sqlType, int scale) {
+		// TODO Auto-generated method stub
+		outValueParameters.put(parameterName, new ScaledOutParameter(sqlType, scale));
+	}
+
+	/* (non-Javadoc)
+	 * @see za.co.sindi.sql.CallableParameters#registerOutParameter(java.lang.String, int, java.lang.String)
+	 */
+	public void registerOutParameter(String parameterName, int sqlType, String typeName) {
+		// TODO Auto-generated method stub
+		outValueParameters.put(parameterName, new TypeNamedOutParameter(sqlType, typeName));
 	}
 
 	/* (non-Javadoc)
@@ -432,14 +489,36 @@ public class CallableStatementParameters extends PreparedStatementParameters imp
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.NamedParameters#visit(java.sql.CallableStatement)
+	 * @see za.co.sindi.sql.NamedParameters#visitParameters(java.sql.CallableStatement)
 	 */
-	public void visit(CallableStatement statement) throws SQLException  {
+	public void visitParameters(CallableStatement statement) throws SQLException  {
 		// TODO Auto-generated method stub
-		super.visit(statement);
 		if (statement != null) {
+			//Visit parent class and insert indexed parameters.
+			super.visitParameters(statement);
+			
+			//Now, insert named parameters.
 			for (Entry<String, ValueParameter<?>> entry : namedValueParameters.entrySet()) {
 				entry.getValue().set(entry.getKey(), statement);
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see za.co.sindi.sql.CallableParameters#visitOUTParameters(java.sql.CallableStatement)
+	 */
+	public void visitOUTParameters(CallableStatement statement) throws SQLException {
+		// TODO Auto-generated method stub
+		if (statement != null) {
+			//First, register outs.
+			for (Entry<Object, OutParameter> entry : outValueParameters.entrySet()) {
+				if (entry.getKey() instanceof Integer) {
+					entry.getValue().set((Integer)entry.getKey(), statement);
+				} else if (entry.getKey() instanceof String) {
+					entry.getValue().set((String)entry.getKey(), statement);
+				} else {
+					throw new RuntimeException("Unknown parameter type for key set for OUT parameter (type : " + entry.getKey().getClass().getName() + ").");
+				}
 			}
 		}
 	}

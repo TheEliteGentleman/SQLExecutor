@@ -3,6 +3,7 @@
  */
 package za.co.sindi.sql.impl;
 
+import java.security.Policy.Parameters;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.util.logging.Level;
 import za.co.sindi.sql.AbstractSQLExecutor;
 import za.co.sindi.sql.DatabaseExecutionException;
 import za.co.sindi.sql.GeneratedKeysHandler;
-import za.co.sindi.sql.Parameters;
+import za.co.sindi.sql.PreparedParameters;
 import za.co.sindi.sql.ResultSetHandler;
 import za.co.sindi.sql.ResultSetInfo;
 import za.co.sindi.sql.SQLQueryExecutor;
@@ -30,7 +31,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	 */
 	public <T> T executeQuery(String query, ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		return executeQuery(query, (Parameters)null, handler);
+		return executeQuery(query, (PreparedParameters)null, handler);
 	}
 
 	/* (non-Javadoc)
@@ -42,9 +43,9 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.SQLQueryExecutor#executeQuery(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.ResultSetHandler)
+	 * @see za.co.sindi.sql.SQLQueryExecutor#executeQuery(java.lang.String, za.co.sindi.sql.PreparedParameters, za.co.sindi.sql.ResultSetHandler)
 	 */
-	public <T> T executeQuery(String query, Parameters parameters, ResultSetHandler<T> handler) throws DatabaseExecutionException {
+	public <T> T executeQuery(String query, PreparedParameters parameters, ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub		
 		return executeQuery(query, parameters, null, handler);
 	}
@@ -54,7 +55,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	 */
 	public <T> T executeQuery(String query, ResultSetInfo info, ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		return executeQuery(query, (Parameters)null, info, handler);
+		return executeQuery(query, (PreparedParameters)null, info, handler);
 	}
 
 	/* (non-Javadoc)
@@ -62,7 +63,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	 */
 	public <T> T executeQuery(String query, Object[] parameters, ResultSetInfo info, ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		Parameters params = null;
+		PreparedParameters params = null;
 		if (parameters != null) {
 			params = new PreparedStatementParameters();
 			
@@ -75,9 +76,9 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.SQLQueryExecutor#executeQuery(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.ResultSetInfo, za.co.sindi.sql.ResultSetHandler)
+	 * @see za.co.sindi.sql.SQLQueryExecutor#executeQuery(java.lang.String, za.co.sindi.sql.PreparedParameters, za.co.sindi.sql.ResultSetInfo, za.co.sindi.sql.ResultSetHandler)
 	 */
-	public <T> T executeQuery(String query, Parameters parameters, ResultSetInfo info, ResultSetHandler<T> handler) throws DatabaseExecutionException {
+	public <T> T executeQuery(String query, PreparedParameters parameters, ResultSetInfo info, ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub	
 		if (connection == null) {
 			throw new IllegalStateException("No JDBC Connection provided.");
@@ -104,7 +105,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			
 			//Populate parameters
 			if (parameters != null) {
-				parameters.visit(statement);
+				parameters.visitParameters(statement);
 			}
 			
 			//Get RestSet
@@ -155,9 +156,9 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.SQLQueryExecutor#executeUpdate(java.lang.String, za.co.sindi.sql.Parameters)
+	 * @see za.co.sindi.sql.SQLQueryExecutor#executeUpdate(java.lang.String, za.co.sindi.sql.PreparedParameters)
 	 */
-	public int executeUpdate(String query, Parameters parameters) throws DatabaseExecutionException {
+	public int executeUpdate(String query, PreparedParameters parameters) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		executeUpdate(query, parameters, null);
 		return updateCount;
@@ -168,7 +169,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	 */
 	public <K> K executeUpdate(String query, Object[] parameters, GeneratedKeysHandler<K> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		Parameters params = null;
+		PreparedParameters params = null;
 		if (parameters != null) {
 			params = new PreparedStatementParameters();
 			
@@ -181,9 +182,9 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.SQLQueryExecutor#executeUpdate(java.lang.String, za.co.sindi.sql.Parameters, za.co.sindi.sql.GeneratedKeysResultSetHandler)
+	 * @see za.co.sindi.sql.SQLQueryExecutor#executeUpdate(java.lang.String, za.co.sindi.sql.PreparedParameters, za.co.sindi.sql.GeneratedKeysResultSetHandler)
 	 */
-	public <K> K executeUpdate(String query, Parameters parameters, GeneratedKeysHandler<K> handler) throws DatabaseExecutionException {
+	public <K> K executeUpdate(String query, PreparedParameters parameters, GeneratedKeysHandler<K> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		if (connection == null) {
 			throw new IllegalStateException("No JDBC Connection provided.");
@@ -211,7 +212,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			
 			//Populate parameters
 			if (parameters != null) {
-				parameters.visit(statement);
+				parameters.visitParameters(statement);
 			}
 			
 			//Update
@@ -257,7 +258,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			throw new IllegalArgumentException("Parameters are required to do Statement batch insert/update.");
 		}
 		
-		Parameters[] params = new Parameters[parameters.length];
+		PreparedParameters[] params = new PreparedParameters[parameters.length];
 		for (int i = 0; i < parameters.length; i++) {
 			params[i] = new PreparedStatementParameters();
 			
@@ -270,9 +271,9 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.sql.SQLQueryExecutor#executeBatch(java.lang.String, za.co.sindi.sql.Parameters[])
+	 * @see za.co.sindi.sql.SQLQueryExecutor#executeBatch(java.lang.String, za.co.sindi.sql.PreparedParameters[])
 	 */
-	public int[] executeBatch(String query, Parameters[] parametersArray) throws DatabaseExecutionException {
+	public int[] executeBatch(String query, PreparedParameters[] parametersArray) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
 		if (parametersArray == null) {
 			throw new IllegalArgumentException("Parameters are required to do Statement batch insert/update.");
@@ -295,8 +296,8 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			
 			//Populate parameters
 			if (parametersArray != null) {
-				for (Parameters parameter : parametersArray) {
-					parameter.visit(statement);
+				for (PreparedParameters parameter : parametersArray) {
+					parameter.visitParameters(statement);
 					statement.addBatch();
 				}
 			}

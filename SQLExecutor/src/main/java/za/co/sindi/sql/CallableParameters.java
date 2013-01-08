@@ -20,8 +20,15 @@ import java.util.Calendar;
  * @since 27 December 2012
  *
  */
-public interface NamedParameters extends Parameters, Clearable {
+public interface CallableParameters extends PreparedParameters, Clearable {
 
+	public void registerOutParameter(int parameterIndex, int sqlType);
+	public void registerOutParameter(int parameterIndex, int sqlType, int scale);
+	public void registerOutParameter(int parameterIndex, int sqlType, String typeName);
+	public void registerOutParameter(String parameterName, int sqlType);
+	public void registerOutParameter(String parameterName, int sqlType, int scale);
+	public void registerOutParameter (String parameterName, int sqlType, String typeName);
+	
 	public void setNull(String parameterName, int sqlType);
 	public void setBoolean(String parameterName, boolean x);
 	public void setByte(String parameterName, byte x);
@@ -73,5 +80,6 @@ public interface NamedParameters extends Parameters, Clearable {
 	public void setBlob(String parameterName, InputStream inputStream);
 	public void setNClob(String parameterName, Reader reader);
 	
-	public void visit(CallableStatement statement) throws SQLException;
+	public void visitParameters(CallableStatement statement) throws SQLException;
+	public void visitOUTParameters(CallableStatement statement) throws SQLException;
 }
