@@ -517,7 +517,8 @@ public class CallableStatementParameters extends PreparedStatementParameters imp
 				} else if (entry.getKey() instanceof String) {
 					entry.getValue().set((String)entry.getKey(), statement);
 				} else {
-					throw new RuntimeException("Unknown parameter type for key set for OUT parameter (type : " + entry.getKey().getClass().getName() + ").");
+					//This must never happen, but if it does!
+					throw new RuntimeException("Unknown parameter type for key set for OUT parameter (type : " + entry.getKey().getClass().getName() + ", value: " + entry.getValue().toString() + ").");
 				}
 			}
 		}
