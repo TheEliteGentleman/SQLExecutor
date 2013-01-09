@@ -6,6 +6,7 @@ package za.co.sindi.sql.parameter;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import za.co.sindi.sql.Parameter;
 
@@ -16,6 +17,7 @@ import za.co.sindi.sql.Parameter;
  */
 public abstract class OutParameter implements Parameter {
 
+	protected final Logger logger = Logger.getLogger(this.getClass().getName());
 	protected int sqlType;
 
 	/**

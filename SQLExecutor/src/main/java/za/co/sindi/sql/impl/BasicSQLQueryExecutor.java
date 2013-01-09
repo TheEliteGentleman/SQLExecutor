@@ -84,6 +84,10 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			throw new IllegalStateException("No JDBC Connection provided.");
 		}
 		
+		if (logger.isLoggable(Level.INFO)) {
+			logger.info("Executing SQL query: " + query);
+		}
+		
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		T result = null;
@@ -190,6 +194,10 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			throw new IllegalStateException("No JDBC Connection provided.");
 		}
 		
+		if (logger.isLoggable(Level.INFO)) {
+			logger.info("Executing SQL query update: " + query);
+		}
+		
 		PreparedStatement statement = null;
 		ResultSet keys = null;
 		K keyValue = null;
@@ -281,6 +289,10 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 		
 		if (connection == null) {
 			throw new IllegalStateException("No JDBC Connection provided.");
+		}
+		
+		if (logger.isLoggable(Level.INFO)) {
+			logger.info("Executing batch update query: " + query);
 		}
 		
 		PreparedStatement statement = null;

@@ -8,6 +8,8 @@ import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import za.co.sindi.sql.Parameter;
 
@@ -18,6 +20,7 @@ import za.co.sindi.sql.Parameter;
  */
 public abstract class ValueParameter<V> implements Parameter {
 
+	protected final Logger logger = Logger.getLogger(this.getClass().getName());
 	protected V value;
 	
 	protected ValueParameter(V value) {
@@ -30,11 +33,25 @@ public abstract class ValueParameter<V> implements Parameter {
 	 */
 	public void set(int parameterIndex, PreparedStatement ps) throws SQLException {
 		// TODO Auto-generated method stub
-		if (value == null) {
+		int sqlType = Types.OTHER;
+		if (!(ps instanceof CallableStatement)) {
 			ParameterMetaData pmd = ps.getParameterMetaData();
-			int sqlType = pmd.getParameterType(parameterIndex);
+			sqlType = pmd.getParameterType(parameterIndex);
+		} else {
+			if (logger.isLoggable(Level.INFO)) {
+				logger.info("Received a CallableStatement and cannot retrieve a parameter type through ParameterMetaData. Setting sqlType to Types.OTHER.");
+			}
+		}
+		
+		if (value == null) {
+			if (logger.isLoggable(Level.INFO)) {
+				logger.info("Setting parameter index " + parameterIndex + " to null (SQL Type: " + sqlType + ").");
+			}
 			ps.setNull(parameterIndex, sqlType);
 		} else {
+			if (logger.isLoggable(Level.INFO)) {
+				logger.info("Setting parameter index " + parameterIndex + " to " + value.toString() + " (SQL Type: " + sqlType + ", value type: " + value.getClass().getName() + ").");
+			}
 			setInternally(parameterIndex, ps);
 		}
 	}
@@ -45,8 +62,14 @@ public abstract class ValueParameter<V> implements Parameter {
 	public void set(String parameterName, CallableStatement statement) throws SQLException {
 		// TODO Auto-generated method stub
 		if (value == null) {
+			if (logger.isLoggable(Level.INFO)) {
+				logger.info("Setting parameter name '" + parameterName + "' to null.");
+			}
 			statement.setNull(parameterName, Types.OTHER);
 		} else {
+			if (logger.isLoggable(Level.INFO)) {
+				logger.info("Setting parameter name '" + parameterName + "' to " + value.toString() + " (Value type: " + value.getClass().getName() + ").");
+			}
 			setInternally(parameterName, statement);
 		}
 	}

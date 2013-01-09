@@ -64,6 +64,10 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 			throw new IllegalStateException("No JDBC Connection provided.");
 		}
 		
+		if (logger.isLoggable(Level.INFO)) {
+			logger.info("Executing stored procedure: " + call);
+		}
+		
 		CallableStatement statement = null;
 		T result = null;
 		
@@ -155,6 +159,10 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 		
 		if (connection == null) {
 			throw new IllegalStateException("No JDBC Connection provided.");
+		}
+		
+		if (logger.isLoggable(Level.INFO)) {
+			logger.info("Executing batch update procedure: " + call);
 		}
 		
 		CallableStatement statement = null;
