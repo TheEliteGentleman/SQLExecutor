@@ -7,7 +7,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
@@ -16,7 +18,7 @@ import javax.sql.DataSource;
  * @since 03 January 2013
  *
  */
-public class BasicDataSource implements DataSource {
+public class DriverManagerDataSource implements DataSource {
 
 	private String url;
 	private Properties info;
@@ -24,7 +26,7 @@ public class BasicDataSource implements DataSource {
 	/**
 	 * @param url
 	 */
-	public BasicDataSource(String url) {
+	public DriverManagerDataSource(String url) {
 		this(url, null);
 	}
 
@@ -32,7 +34,7 @@ public class BasicDataSource implements DataSource {
 	 * @param url
 	 * @param info
 	 */
-	public BasicDataSource(String url, Properties info) {
+	public DriverManagerDataSource(String url, Properties info) {
 		super();
 		this.url = url;
 		this.info = info;
@@ -68,6 +70,14 @@ public class BasicDataSource implements DataSource {
 	public int getLoginTimeout() throws SQLException {
 		// TODO Auto-generated method stub
 		return DriverManager.getLoginTimeout();
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.sql.CommonDataSource#getParentLogger()
+	 */
+	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Method not supported.");
 	}
 
 	/* (non-Javadoc)
