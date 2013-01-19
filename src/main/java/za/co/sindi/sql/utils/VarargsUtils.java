@@ -17,6 +17,7 @@ public class VarargsUtils {
 		// TODO Auto-generated constructor stub
 	}
 
+	@SafeVarargs
 	public static <V> V[] toArray(V... values) {
 		return values;
 	}
