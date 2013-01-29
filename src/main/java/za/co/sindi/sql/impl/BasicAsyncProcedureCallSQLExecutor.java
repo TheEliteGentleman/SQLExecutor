@@ -23,6 +23,14 @@ public class BasicAsyncProcedureCallSQLExecutor extends AbstractAsyncSQLExecutor
 
 	/**
 	 * @param executorService
+	 */
+	public BasicAsyncProcedureCallSQLExecutor(ExecutorService executorService) {
+		super(executorService, new BasicProcedureCallSQLExecutor());
+		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * @param executorService
 	 * @param sqlExecutor
 	 */
 	public BasicAsyncProcedureCallSQLExecutor(ExecutorService executorService, ProcedureCallSQLExecutor sqlExecutor) {

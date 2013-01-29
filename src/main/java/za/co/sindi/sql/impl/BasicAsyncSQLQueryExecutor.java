@@ -25,6 +25,14 @@ public class BasicAsyncSQLQueryExecutor extends AbstractAsyncSQLExecutor<SQLQuer
 
 	/**
 	 * @param executorService
+	 */
+	public BasicAsyncSQLQueryExecutor(ExecutorService executorService) {
+		this(executorService, new BasicSQLQueryExecutor());
+		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * @param executorService
 	 * @param sqlExecutor
 	 */
 	public BasicAsyncSQLQueryExecutor(ExecutorService executorService, SQLQueryExecutor sqlExecutor) {
