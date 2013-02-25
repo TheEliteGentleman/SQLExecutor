@@ -3,7 +3,6 @@
  */
 package za.co.sindi.sql.impl;
 
-import java.security.Policy.Parameters;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -148,7 +147,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	 */
 	public int executeUpdate(String query) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		return executeUpdate(query, (Parameters)null);
+		return executeUpdate(query, (Object[])null);
 	}
 
 	/* (non-Javadoc)
@@ -205,7 +204,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 		try {
 			if (handler != null) {
 				if (handler.getColumnIndexes() != null && handler.getColumnIndexes().length > 0) {
-					statement = connection.prepareStatement(query);
+					statement = connection.prepareStatement(query, handler.getColumnIndexes());
 				} else if (handler.getColumnNames() != null && handler.getColumnNames().length > 0) {
 					statement = connection.prepareStatement(query, handler.getColumnNames());
 				} else {
@@ -325,7 +324,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 				SQLUtils.close(statement);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				logger.log(Level.WARNING, "Error closing a ResultSet or Statement.", e);
+				logger.log(Level.WARNING, "Error closing a Statement.", e);
 			} finally {
 				if (closeConnection) {
 					try {

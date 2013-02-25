@@ -111,7 +111,7 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 				SQLUtils.close(statement);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				logger.log(Level.WARNING, "Error closing a ResultSet or Statement.", e);
+				logger.log(Level.WARNING, "Error closing a Statement.", e);
 			} finally {
 				if (closeConnection) {
 					try {
@@ -195,7 +195,7 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 				SQLUtils.close(statement);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				logger.log(Level.WARNING, "Error closing a ResultSet or Statement.", e);
+				logger.log(Level.WARNING, "Error closing a Statement.", e);
 			} finally {
 				if (closeConnection) {
 					try {
