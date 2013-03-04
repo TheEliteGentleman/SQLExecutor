@@ -14,7 +14,8 @@ import java.sql.SQLXML;
  * @since 26 December 2012
  *
  */
-public interface DataResult extends Clearable {
+@Deprecated
+public interface ResultSetData extends Clearable {
 
 	public String getString(int columnIndex) throws SQLException;
 	public boolean getBoolean(int columnIndex) throws SQLException;

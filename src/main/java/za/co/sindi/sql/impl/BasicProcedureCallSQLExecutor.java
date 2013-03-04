@@ -187,7 +187,7 @@ public class BasicProcedureCallSQLExecutor extends AbstractSQLExecutor implement
 			//Update
 			rows = statement.executeBatch();
 		} catch (SQLException sqle) {
-			String message = "SQLException from running call (" + call + ").";
+			String message = "SQLException from running batch call (" + call + ").";
 			logger.log(Level.SEVERE, message, sqle);
 			throw new DatabaseExecutionException(message, sqle);
 		} finally {

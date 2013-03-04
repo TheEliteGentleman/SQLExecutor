@@ -30,7 +30,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	 */
 	public <T> T executeQuery(String query, ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		return executeQuery(query, (PreparedParameters)null, handler);
+		return executeQuery(query, (Object[])null, handler);
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +54,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	 */
 	public <T> T executeQuery(String query, ResultSetInfo info, ResultSetHandler<T> handler) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		return executeQuery(query, (PreparedParameters)null, info, handler);
+		return executeQuery(query, (Object[])null, info, handler);
 	}
 
 	/* (non-Javadoc)
@@ -155,7 +155,8 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 	 */
 	public int executeUpdate(String query, Object... parameters) throws DatabaseExecutionException {
 		// TODO Auto-generated method stub
-		return executeUpdate(query, parameters, null);
+		executeUpdate(query, parameters, null);
+		return updateCount;
 	}
 
 	/* (non-Javadoc)
@@ -181,7 +182,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			}
 		}
 		
-		return executeQuery(query, params, handler);
+		return executeUpdate(query, params, handler);
 	}
 
 	/* (non-Javadoc)
@@ -316,7 +317,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			//Update
 			rows = statement.executeBatch();
 		} catch (SQLException sqle) {
-			String message = "SQLException from running query (" + query + ").";
+			String message = "SQLException from running batch query (" + query + ").";
 			logger.log(Level.SEVERE, message, sqle);
 			throw new DatabaseExecutionException(message, sqle);
 		} finally {

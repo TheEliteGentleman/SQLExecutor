@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +20,7 @@ public final class ResultSetIterator implements Iterator<Map<String, Object>> {
 
 	private static final Logger LOGGER = Logger.getLogger(ResultSetIterator.class.getName());
 	private ResultSet resultSet;
+	private SQLException thrownException;
 	
 	/**
 	 * @param resultSet
@@ -45,6 +45,7 @@ public final class ResultSetIterator implements Iterator<Map<String, Object>> {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			LOGGER.log(Level.SEVERE, "ResultSet.next() threw an exception.", e);
+			thrownException = e;
 		}
 		
 		return next;
@@ -55,15 +56,16 @@ public final class ResultSetIterator implements Iterator<Map<String, Object>> {
 	 */
 	public Map<String, Object> next() {
 		// TODO Auto-generated method stub
-		Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+		Map<String, Object> resultMap = new CaseInsensitiveMap<Object>();
 		try {
 			ResultSetMetaData rsmd = resultSet.getMetaData();
 			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-				resultMap.put(rsmd.getColumnName(i), resultSet.getObject(i));
+				resultMap.put(rsmd.getColumnLabel(i), resultSet.getObject(i));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			LOGGER.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			thrownException = e;
 		}
 		
 		return resultMap;
@@ -79,6 +81,14 @@ public final class ResultSetIterator implements Iterator<Map<String, Object>> {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			LOGGER.log(Level.SEVERE, "ResultSet.deleteRow() threw an exception.", e);
+			thrownException = e;
 		}
+	}
+
+	/**
+	 * @return the thrownException
+	 */
+	public SQLException getThrownException() {
+		return thrownException;
 	}
 }
