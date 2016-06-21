@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>za.co.sindi</groupId>
-  <artifactId>sqlexecutor</artifactId>
-  <version>0.0.1</version><!-- Was 0.0.1-SNAPSHOT -->
-  <name>SQLExecutor</name>
-  <description>A small but yet simple JDBC-Wrapper library with classes designed to make working with JDBC easier. These classes are designed to handle the cleanup of JDBC resources while leaving the developer doing what they really need to do with JDBC.</description>
-  
-  	<developers>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>za.co.sindi</groupId>
+	<artifactId>sqlexecutor</artifactId>
+	<version>0.0.1</version><!-- Was 0.0.1-SNAPSHOT -->
+	<name>SQLExecutor</name>
+	<description>A small but yet simple JDBC-Wrapper library with classes designed to make working with JDBC easier. These classes are designed to handle the cleanup of JDBC resources while leaving the developer doing what they really need to do with JDBC.</description>
+
+	<developers>
 		<developer>
 			<name>Buhake Sindi</name>
 			<timezone>+2</timezone>
@@ -23,25 +24,25 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	
+
 	<scm>
-        <connection>scm:git:https://github.com/TheEliteGentleman/SQLExecutor.git</connection>
-        <url>scm:git:https://github.com/TheEliteGentleman/SQLExecutor.git</url>
-        <developerConnection>scm:git:https://github.com/TheEliteGentleman/SQLExecutor.git</developerConnection>
-    </scm>
-    
-    <build>
+		<connection>scm:git:https://github.com/TheEliteGentleman/SQLExecutor.git</connection>
+		<url>scm:git:https://github.com/TheEliteGentleman/SQLExecutor.git</url>
+		<developerConnection>scm:git:https://github.com/TheEliteGentleman/SQLExecutor.git</developerConnection>
+	</scm>
+
+	<build>
 		<!-- Tell Maven that this is a Java 1.6 project -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>

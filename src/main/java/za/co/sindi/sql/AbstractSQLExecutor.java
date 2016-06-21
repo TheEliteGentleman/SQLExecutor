@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractSQLExecutor implements SQLExecutor {
 
-	protected final Logger logger = Logger.getLogger(this.getClass().getName());
+	protected final Logger LOGGER = Logger.getLogger(this.getClass().getName());
 	protected Connection connection;
 	protected int fetchDirection;
 	protected int fetchSize;
@@ -95,8 +95,8 @@ public abstract class AbstractSQLExecutor implements SQLExecutor {
 		if (statement != null) {
 			//Update fetch direction
 			if (fetchDirection >= ResultSet.FETCH_FORWARD && fetchDirection <= ResultSet.FETCH_UNKNOWN) {
-				if (logger.isLoggable(Level.INFO)) {
-					logger.info("Setting Fetch direction to " + fetchDirection + ".");
+				if (LOGGER.isLoggable(Level.INFO)) {
+					LOGGER.info("Setting Fetch direction to " + fetchDirection + ".");
 				}
 				
 				statement.setFetchDirection(fetchDirection);
@@ -104,8 +104,8 @@ public abstract class AbstractSQLExecutor implements SQLExecutor {
 			
 			//Updating fetch size
 			if (fetchSize >= 0) {
-				if (logger.isLoggable(Level.INFO)) {
-					logger.info("Setting Fetch size to " + fetchSize + ".");
+				if (LOGGER.isLoggable(Level.INFO)) {
+					LOGGER.info("Setting Fetch size to " + fetchSize + ".");
 				}
 				
 				statement.setFetchSize(fetchSize);
@@ -113,8 +113,8 @@ public abstract class AbstractSQLExecutor implements SQLExecutor {
 			
 			//Updating max filed size
 			if (maxFieldSize >= 0) {
-				if (logger.isLoggable(Level.INFO)) {
-					logger.info("Setting Max Field size to " + maxFieldSize + ".");
+				if (LOGGER.isLoggable(Level.INFO)) {
+					LOGGER.info("Setting Max Field size to " + maxFieldSize + ".");
 				}
 				
 				statement.setMaxFieldSize(maxFieldSize);
@@ -122,8 +122,8 @@ public abstract class AbstractSQLExecutor implements SQLExecutor {
 			
 			//Updating fetch size
 			if (maxRows >= 0) {
-				if (logger.isLoggable(Level.INFO)) {
-					logger.info("Setting max rows to " + maxRows + ".");
+				if (LOGGER.isLoggable(Level.INFO)) {
+					LOGGER.info("Setting max rows to " + maxRows + ".");
 				}
 				
 				statement.setMaxRows(maxRows);
@@ -131,8 +131,8 @@ public abstract class AbstractSQLExecutor implements SQLExecutor {
 			
 			//Updating query timeout
 			if (queryTimeout >= 0) {
-				if (logger.isLoggable(Level.INFO)) {
-					logger.info("Setting query timeout to " + fetchSize + " seconds.");
+				if (LOGGER.isLoggable(Level.INFO)) {
+					LOGGER.info("Setting query timeout to " + fetchSize + " seconds.");
 				}
 				
 				statement.setQueryTimeout(queryTimeout);

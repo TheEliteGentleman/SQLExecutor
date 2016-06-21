@@ -83,8 +83,8 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			throw new IllegalStateException("No JDBC Connection provided.");
 		}
 		
-		if (logger.isLoggable(Level.INFO)) {
-			logger.info("Executing SQL query: " + query);
+		if (LOGGER.isLoggable(Level.INFO)) {
+			LOGGER.info("Executing SQL query: " + query);
 		}
 		
 		PreparedStatement statement = null;
@@ -118,7 +118,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			}
 		} catch (SQLException sqle) {
 			String message = "SQLException from running query (" + query + ").";
-			logger.log(Level.SEVERE, message, sqle);
+			LOGGER.log(Level.SEVERE, message, sqle);
 			throw new DatabaseExecutionException(message, sqle);
 		} finally {
 			try {
@@ -126,14 +126,14 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 				SQLUtils.close(statement);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				logger.log(Level.WARNING, "Error closing a ResultSet or Statement.", e);
+				LOGGER.log(Level.WARNING, "Error closing a ResultSet or Statement.", e);
 			} finally {
 				if (closeConnection) {
 					try {
 						SQLUtils.close(connection);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						logger.log(Level.WARNING, "Error closing a Connection.", e);
+						LOGGER.log(Level.WARNING, "Error closing a Connection.", e);
 					}
 				}
 			}
@@ -194,8 +194,8 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			throw new IllegalStateException("No JDBC Connection provided.");
 		}
 		
-		if (logger.isLoggable(Level.INFO)) {
-			logger.info("Executing SQL query update: " + query);
+		if (LOGGER.isLoggable(Level.INFO)) {
+			LOGGER.info("Executing SQL query update: " + query);
 		}
 		
 		PreparedStatement statement = null;
@@ -233,7 +233,7 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			}
 		} catch (SQLException sqle) {
 			String message = "SQLException from running query (" + query + ").";
-			logger.log(Level.SEVERE, message, sqle);
+			LOGGER.log(Level.SEVERE, message, sqle);
 			throw new DatabaseExecutionException(message, sqle);
 		} finally {
 			try {
@@ -241,14 +241,14 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 				SQLUtils.close(statement);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				logger.log(Level.WARNING, "Error closing a ResultSet or Statement.", e);
+				LOGGER.log(Level.WARNING, "Error closing a ResultSet or Statement.", e);
 			} finally {
 				if (closeConnection) {
 					try {
 						SQLUtils.close(connection);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						logger.log(Level.WARNING, "Error closing a Connection.", e);
+						LOGGER.log(Level.WARNING, "Error closing a Connection.", e);
 					}
 				}
 			}
@@ -291,8 +291,8 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			throw new IllegalStateException("No JDBC Connection provided.");
 		}
 		
-		if (logger.isLoggable(Level.INFO)) {
-			logger.info("Executing batch update query: " + query);
+		if (LOGGER.isLoggable(Level.INFO)) {
+			LOGGER.info("Executing batch update query: " + query);
 		}
 		
 		PreparedStatement statement = null;
@@ -318,21 +318,21 @@ public class BasicSQLQueryExecutor extends AbstractSQLExecutor implements SQLQue
 			rows = statement.executeBatch();
 		} catch (SQLException sqle) {
 			String message = "SQLException from running batch query (" + query + ").";
-			logger.log(Level.SEVERE, message, sqle);
+			LOGGER.log(Level.SEVERE, message, sqle);
 			throw new DatabaseExecutionException(message, sqle);
 		} finally {
 			try {
 				SQLUtils.close(statement);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				logger.log(Level.WARNING, "Error closing a Statement.", e);
+				LOGGER.log(Level.WARNING, "Error closing a Statement.", e);
 			} finally {
 				if (closeConnection) {
 					try {
 						SQLUtils.close(connection);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						logger.log(Level.WARNING, "Error closing a Connection.", e);
+						LOGGER.log(Level.WARNING, "Error closing a Connection.", e);
 					}
 				}
 			}
